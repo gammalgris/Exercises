@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<definition
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.measures.org UnitsDefinition.xsd"
+    xmlns="http://www.measures.org"
+    
+    category="Volumes">
+
+    <unit name="Cubic metre" abbreviation="m^3" normalized-value="1"/>
+    <unit name="Litre" abbreviation="l" normalized-value="1000"/>
+    <unit name="Cubic centimetre" abbreviation="cm^3" normalized-value="1000000"/>
+    <unit name="Millilitre" abbreviation="ml" normalized-value="1000000"/>
+    
+</definition>

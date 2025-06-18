@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<definition
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.measures.org UnitsDefinition.xsd"
+    xmlns="http://www.measures.org"
+    
+    category="Areas">
+
+    <unit name="Square Kilometre" abbreviation="km^2" normalized-value="1"/>
+    <unit name="Square Metre" abbreviation="m^2" normalized-value="1000000"/>
+    <unit name="Square Centimetre" abbreviation="cm^2" normalized-value="10000000000"/>
+    <unit name="Square Millimetre" abbreviation="mm^2" normalized-value="1000000000000"/>
+    
+</definition>

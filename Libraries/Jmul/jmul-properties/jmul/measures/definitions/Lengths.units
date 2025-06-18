@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<definition
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.measures.org UnitsDefinition.xsd"
+    xmlns="http://www.measures.org"
+    
+    category="Lengths">
+
+    <unit name="Kilometre" abbreviation="km" normalized-value="1"/>
+    <unit name="Metre" abbreviation="m" normalized-value="1000"/>
+    <unit name="Centimetre" abbreviation="cm" normalized-value="100000"/>
+    <unit name="Millimetre" abbreviation="mm" normalized-value="1000000"/>
+    
+</definition>

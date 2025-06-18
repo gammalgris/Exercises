@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rule
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.transformation-template.org ./ConfigurationSchema.xsd"
+    xmlns="http://www.transformation-template.org"
+    
+    priority="20">
+
+    <transformation-path
+        origin="Object"
+        destination="XML" />
+
+    <implementation
+        classname="jmul.transformation.xml.rules.object2xml.Collection2XmlRule" />
+
+</rule>

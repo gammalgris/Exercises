@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<definition
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.measures.org UnitsDefinition.xsd"
+    xmlns="http://www.measures.org"
+    
+    category="Weights">
+
+    <unit name="Tonne" abbreviation="t" normalized-value="1"/>
+    <unit name="Kilogram" abbreviation="kg" normalized-value="1000"/>
+    <unit name="Gram" abbreviation="g" normalized-value="1000000"/>
+    <unit name="Milligram" abbreviation="mg" normalized-value="1000000000"/>
+    
+</definition>

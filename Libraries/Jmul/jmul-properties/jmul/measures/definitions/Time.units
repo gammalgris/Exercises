@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<definition
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.measures.org UnitsDefinition.xsd"
+    xmlns="http://www.measures.org"
+    
+    category="Time">
+
+    <unit name="Year" abbreviation="Y" normalized-value="1"/>
+    <unit name="Month" abbreviation="M" normalized-value="12"/>
+    <unit name="Week" abbreviation="w" normalized-value="52"/>
+    <unit name="Day" abbreviation="d" normalized-value="364"/>
+    <unit name="Hour" abbreviation="h" normalized-value="8736"/>
+    <unit name="Minute" abbreviation="min" normalized-value="524160"/>
+    <unit name="Second" abbreviation="s" normalized-value="31449600"/>
+    <unit name="Millisecond" abbreviation="ms" normalized-value="31449600000"/>
+    
+</definition>
