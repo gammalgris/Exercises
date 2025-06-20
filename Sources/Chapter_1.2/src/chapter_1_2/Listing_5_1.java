@@ -1,4 +1,14 @@
-package chapter12;
+/*
+ * Copyright notice:
+ *
+ * Artificial Neural Networks for Java
+ * Igor Livshin
+ * ISBN-13: 978-1-4842-4420-3
+ *
+ */
+
+package chapter_1_2;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,6 +20,7 @@ import java.io.PrintWriter;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 
 public class Listing_5_1 {
 
@@ -37,10 +48,10 @@ public class Listing_5_1 {
         // Config data
 
         // config for training
-        //String inputFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\training_data_set.csv";
-        //String outputNormFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\training_data_set_norm.csv";
-        String inputFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\test_data_set.csv";
-        String outputNormFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\test_data_set_norm.csv";
+        String inputFileName = ".\\data\\training_data_set.csv";
+        String outputNormFileName = ".\\data\\training_data_set_norm2.csv";
+        //String inputFileName = ".\\data\\test_data_set.csv";
+        //String outputNormFileName = ".\\data\\test_data_set_norm2.csv";
 
         BufferedReader br = null;
         PrintWriter out = null;

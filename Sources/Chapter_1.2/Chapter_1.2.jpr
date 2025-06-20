@@ -152,14 +152,17 @@
             <hash>
                <list n="classPath">
                   <url path="../../Libraries/XChart/xchart-3.8.9-SNAPSHOT.jar" jar-entry=""/>
+                  <url path="../../Libraries/XChart/xchart-demo-3.8.9-SNAPSHOT.jar" jar-entry=""/>
                </list>
                <value n="description" v="Xchart-3.8.9-SNAPSHOT"/>
                <list n="docPath">
                   <url path="../../Libraries/XChart/xchart-3.8.9-SNAPSHOT-javadoc.jar" jar-entry=""/>
+                  <url path="../../Libraries/XChart/xchart-demo-3.8.9-SNAPSHOT-javadoc.jar" jar-entry=""/>
                </list>
                <value n="id" v="Xchart-3.8.9-SNAPSHOT"/>
                <list n="sourcePath">
                   <url path="../../Libraries/XChart/xchart-3.8.9-SNAPSHOT-sources.jar" jar-entry=""/>
+                  <url path="../../Libraries/XChart/xchart-demo-3.8.9-SNAPSHOT-sources.jar" jar-entry=""/>
                </list>
             </hash>
          </list>

@@ -1,6 +1,7 @@
-package chapter12;
+package chapter_1_2;
 
 
+import java.io.File;
 import java.io.IOException;
 
 import java.nio.charset.Charset;
@@ -27,30 +28,54 @@ import jmul.misc.table.ModifiableTableImpl;
 import jmul.misc.table.Table;
 
 
+/**
+ * A modified normalization example.
+ *
+ * @author Kristian Kutin
+ */
 public class Listing_5_1_redone {
 
-    // First column
-    final static Number minXPointDl;
-    final static Number maxXPointDh;
-
-    // Second column - target data
-    final static Number minTargetValueDl;
-    final static Number maxTargetValueDh;
-
-    static {
-
-        minXPointDl = new NumberImpl(0.00D);
-        maxXPointDh = new NumberImpl(5.00D);
-        minTargetValueDl = new NumberImpl(0.00D);
-        maxTargetValueDh = new NumberImpl(5.00D);
-    }
-
+    /**
+     * A main method.
+     *
+     * @param args
+     *        all command line parameters
+     */
     public static void main(String[] args) {
 
-        //String inputFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\training_data_set.csv";
-        //String outputNormFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\training_data_set_norm.csv";
-        String inputFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\test_data_set.csv";
-        String outputNormFileName = "D:\\repositories\\NeuralNets\\Sources\\Chapter 1.2\\data\\test_data_set_norm2.csv";
+        String[] inputFileNames = { ".\\data\\training_data_set.csv", ".\\data\\test_data_set.csv" };
+        String[] outputNormFileName = { ".\\data\\training_data_set_norm.csv", ".\\data\\test_data_set_norm.csv" };
+
+        int max = Math.min(inputFileNames.length, outputNormFileName.length);
+        for (int a = 0; a < max; a++) {
+
+            deleteFile(outputNormFileName[a]);
+            normalizeData(inputFileNames[a], outputNormFileName[a]);
+        }
+    }
+
+    /**
+     * Dleetes the specified file.
+     *
+     * @param path
+     *        a file path
+     */
+    private static void deleteFile(String path) {
+
+        File file = new File(path);
+        file.delete();
+    }
+
+    /**
+     * Loads data from the specified input file, normalizes the data and saves the normalized data to the specified
+     * output file.
+     *
+     * @param inputFileName
+     *        an input file
+     * @param outputNormFileName
+     *        an output file
+     */
+    private static void normalizeData(String inputFileName, String outputNormFileName) {
 
         CsvDocument inputDocument = CsvHelper.loadCSVDocument(inputFileName);
         Table<String> inputData = inputDocument.getContent();
@@ -64,8 +89,11 @@ public class Listing_5_1_redone {
             Number inputXPointValue = new NumberImpl(inputData.getCell(0, row));
             Number targetXPointValue = new NumberImpl(inputData.getCell(1, row));
 
-            Number normInputXPointValue = Normalizer.normalize(inputXPointValue, maxXPointDh, minXPointDl);
-            Number normTargetXPointValue = Normalizer.normalize(targetXPointValue, maxTargetValueDh, minTargetValueDl);
+            Number normInputXPointValue =
+                Normalizer.normalize(inputXPointValue, ScalingConstants.maxXPointDh, ScalingConstants.minXPointDl);
+            Number normTargetXPointValue =
+                Normalizer.normalize(targetXPointValue, ScalingConstants.maxTargetValueDh,
+                                     ScalingConstants.minTargetValueDl);
 
             outputData.addRow();
             outputData.updateCell(0, row, normInputXPointValue.toString());
@@ -79,8 +107,54 @@ public class Listing_5_1_redone {
 }
 
 
+/**
+ * This class contains various constants for scaling test and training data.
+ */
+final class ScalingConstants {
+
+    // First column
+    public final static Number minXPointDl;
+    public final static Number maxXPointDh;
+
+    // Second column - target data
+    public final static Number minTargetValueDl;
+    public final static Number maxTargetValueDh;
+
+    /*
+     * The static initializer.
+     */
+    static {
+
+        minXPointDl = new NumberImpl(0.00D);
+        maxXPointDh = new NumberImpl(5.00D);
+        minTargetValueDl = new NumberImpl(0.00D);
+        maxTargetValueDh = new NumberImpl(5.00D);
+    }
+
+}
+
+
+/**
+ * This utility class contains utility operations for reading and writing CSV files.
+ */
 final class CsvHelper {
 
+    /**
+     * The default constructor.
+     */
+    private CsvHelper() {
+
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Loads the specified CV file into memory and returns a CSV document object.
+     *
+     * @param path
+     *        a file path
+     *
+     * @return a CSV document object
+     */
     public static CsvDocument loadCSVDocument(String path) {
 
         Charset charset = StandardCharsets.UTF_8;
@@ -103,6 +177,16 @@ final class CsvHelper {
         }
     }
 
+    /**
+     * Creates a new CSV document according to the specified parameters.
+     *
+     * @param document
+     *        a CVS document whose properties are copied to the new CSV document
+     * @param table
+     *        a table with the CSV document content
+     *
+     * @return a new CSV document
+     */
     public static CsvDocument createNewDocumentWithSameProperties(CsvDocument document, Table<String> table) {
 
         DocumentType documentType = document.getDocumentType();
@@ -126,6 +210,14 @@ final class CsvHelper {
         return newDocument;
     }
 
+    /**
+     * Saves the specified CSV document at the specified file path.
+     *
+     * @param path
+     *        a file path
+     * @param document
+     *        a CSV document
+     */
     public static void saveCsvDocument(String path, CsvDocument document) {
 
         CsvDocumentWriter writer = new CsvDocumentWriterImpl();
@@ -141,6 +233,10 @@ final class CsvHelper {
 
 }
 
+
+/**
+ * A utility class for normalizing training and test data.
+ */
 final class Normalizer {
 
     final static Number Nh;
@@ -149,49 +245,50 @@ final class Normalizer {
     final static double _Nh;
     final static double _Nl;
 
+    /*
+     * The static initializer.
+     */
     static {
 
         Nh = createNumber(10, "1");
         Nl = createNumber(10, "-1");
-        
+
         _Nh = 1D;
         _Nl = -1D;
     }
 
+    /**
+     * The default constructor.
+     */
+    private Normalizer() {
+
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Normalizes the specified value according to the specified parameters.
+     *
+     * @param value
+     *        a value
+     * @param Dh
+     *        the maximum number of a number range
+     * @param Dl
+     *        the minimum number of a number range
+     *
+     * @return a normalized number
+     */
     public static Number normalize(Number value, Number Dh, Number Dl) {
 
         // (value - Dl) * (Nh - Nl) / (Dh - Dl) + Nl;
 
-        double _value = Double.parseDouble(value.toString());
-        double _Dh = Double.parseDouble(Dh.toString());
-        double _Dl = Double.parseDouble(Dl.toString());
-
         Number term1 = value.subtract(Dl);
-        double _term1 = _value - _Dl;
-                
         Number term2 = Nh.subtract(Nl);
-        double _term2 = _Nh - _Nl;
-
         Number term3 = Dh.subtract(Dl);
-        double _term3 = _Dh - _Dl;
-
         Number term4 = Nl;
-        double _term4 = _Nl;
-
-        Number term5 = term1.multiply(term2);
-        double _term5 = _term1 * _term2;
-
-        Number term6 = term5.divide(FunctionIdentifiers.RUSSIAN_DIVISION_FUNCTION, term3);
-        double _term6 = _term5 / _term3;
-
-        Number term7 = term6.add(term4);
-        double _term7 = _term6 + _term4;
 
         Number result = term1.multiply(term2)
                              .divide(FunctionIdentifiers.RUSSIAN_DIVISION_FUNCTION, term3)
                              .add(term4);
-        
-        double _result = _term1 * _term2 / _term3 + _term4;
 
         return result;
     }
