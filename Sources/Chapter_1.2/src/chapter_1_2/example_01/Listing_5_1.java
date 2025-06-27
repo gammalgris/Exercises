@@ -4,10 +4,12 @@
  * Artificial Neural Networks for Java
  * Igor Livshin
  * ISBN-13: 978-1-4842-4420-3
- *
+ * 
+ * 
+ * chapter 5 - listing 5.1 - pages 63 to 67
  */
 
-package chapter_1_2;
+package chapter_1_2.example_01;
 
 
 import java.io.BufferedReader;

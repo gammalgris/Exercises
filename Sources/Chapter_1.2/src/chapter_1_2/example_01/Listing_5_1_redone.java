@@ -1,4 +1,4 @@
-package chapter_1_2;
+package chapter_1_2.example_01;
 
 
 import java.io.File;
@@ -239,11 +239,15 @@ final class CsvHelper {
  */
 final class Normalizer {
 
+    /**
+     * The highest value within the normalized interval.
+     */
     final static Number Nh;
-    final static Number Nl;
 
-    final static double _Nh;
-    final static double _Nl;
+    /**
+     * The lowest value within the normalized interval.
+     */
+    final static Number Nl;
 
     /*
      * The static initializer.
@@ -252,9 +256,6 @@ final class Normalizer {
 
         Nh = createNumber(10, "1");
         Nl = createNumber(10, "-1");
-
-        _Nh = 1D;
-        _Nl = -1D;
     }
 
     /**
@@ -269,23 +270,67 @@ final class Normalizer {
      * Normalizes the specified value according to the specified parameters.
      *
      * @param value
-     *        a value
+     *        a value from a data set
      * @param Dh
-     *        the maximum number of a number range
+     *        the highest value of the data set
      * @param Dl
-     *        the minimum number of a number range
+     *        the lowest value of the data set
      *
-     * @return a normalized number
+     * @return a normalized value
      */
     public static Number normalize(Number value, Number Dh, Number Dl) {
 
-        // (value - Dl) * (Nh - Nl) / (Dh - Dl) + Nl;
+        /*
+         * The normalization function:
+         * 
+         * f(x) = (value - Dl) * (Nh - Nl) / (Dh - Dl) + Nl
+         */
 
         Number term1 = value.subtract(Dl);
         Number term2 = Nh.subtract(Nl);
         Number term3 = Dh.subtract(Dl);
         Number term4 = Nl;
 
+        Number result = term1.multiply(term2)
+                             .divide(FunctionIdentifiers.RUSSIAN_DIVISION_FUNCTION, term3)
+                             .add(term4);
+
+        return result;
+    }
+
+    /**
+     * Normalizes the specified value according to the specified parameters.
+     *
+     * @param normalizedValue
+     *        a normalized value
+     * @param Dh
+     *        the highest value of the denormalized data set
+     * @param Dl
+     *        the lowest value of the denomralized data set
+     *
+     * @return a normalized value
+     */
+    public static Number denormalize(Number normalizedValue, Number Dh, Number Dl) {
+
+        /*
+         * The denormalization function:
+         * 
+         * f(x) = (value - Dl) * (Nh - Nl) / (Dh - Dl) + Nl
+         * 
+         * f(x) - Nl = (value - Dl) * (Nh - Nl) / (Dh - Dl)
+         * 
+         * (f(x) - Nl) * (Dh - Dl) = (value - Dl) * (Nh - Nl)
+         * 
+         * (f(x) - Nl) * (Dh - Dl) / (Nh - Nl) = (value - Dl)
+         * 
+         * (f(x) - Nl) * (Dh - Dl) / (Nh - Nl) + Dl = value
+         */
+        
+        Number term1 = normalizedValue.subtract(Dl);
+        Number term2 = Dh.subtract(Dl);
+        Number term3 = Nh.subtract(Nl);
+        Number term4 = Dl;
+        
         Number result = term1.multiply(term2)
                              .divide(FunctionIdentifiers.RUSSIAN_DIVISION_FUNCTION, term3)
                              .add(term4);
