@@ -1,0 +1,37 @@
+
+# Batch scripts
+
+*.bat eol=crlf
+
+
+# Java source files and properties
+
+*.java eol=lf ident
+*.properties eol=lf
+
+
+# XML
+
+*.xml eol=lf
+*.configuration eol=lf
+*.units eol=lf
+
+
+# HTML and JavaScript
+
+*.html eol=lf
+*.htm eol=lf
+*.js eol=lf
+*.svg eol=lf
+*.css eol=lf
+
+
+# JDeveloper project files
+
+*.jpr eol=lf
+*.jws eol=lf
+
+
+# Documentation files
+
+*.md eol=lf

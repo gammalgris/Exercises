@@ -1,0 +1,21 @@
+#
+# This file has to be updated regularly when the project structure is
+# changed or expanded. The specified filtering rules make it easier to
+# check in the relevant project files and source code.
+#
+
+#
+# Ignore all .data directories and which are created by JDeveloper
+#
+/**/.data/*
+
+#
+# Ignore (empty) directories which are created by JDeveloper.
+#
+/Batch/classes/*
+/Sources/Archive/classes/*
+/Sources/Encog/src/*
+/Sources/Encog/classes/*
+/Sources/Neural/classes/*
+/Sources/Neural2/classes/*
+/Sources/Neural3/classes/*
