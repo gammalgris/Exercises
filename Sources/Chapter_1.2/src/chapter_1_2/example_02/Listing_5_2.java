@@ -263,7 +263,7 @@ class Sample2 implements ExampleChart<XYChart> {
             System.out.println("Epoch #" + epoch + " Error:" + train.getError());
             epoch++;
 
-            if (epoch >= 500 && network.calculateError(trainingSet) > 0.000000031) {
+             if (epoch >= 500 && network.calculateError(trainingSet) > 0.000000031) {
                 returnCode = 1;
                 System.out.println("Try again");
                 return returnCode;

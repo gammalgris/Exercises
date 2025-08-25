@@ -25,5 +25,9 @@
    </list>
    <list n="listOfChildren">
       <hash><url n="URL" path="Chapter_1.2/Chapter_1.2.jpr"/></hash>
+      <hash><url n="URL" path="Encog/Encog.jpr"/></hash>
+      <hash><url n="URL" path="Neural/Neural.jpr"/></hash>
+      <hash><url n="URL" path="Neural2/Neural2.jpr"/></hash>
+      <hash><url n="URL" path="Neural3/Neural3.jpr"/></hash>
    </list>
 </jws:workspace>

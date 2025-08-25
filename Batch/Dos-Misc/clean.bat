@@ -92,13 +92,21 @@
 	set rootDir=%~dp0..\..\
 	set projectDir=%rootDir%Sources\
 
-	set directories.length=3
+	set directories.length=7
 
-	set directories[1]=%projectDir%.data\
-	set directories[2]=%projectDir%Chapter_1.2\classes\
-	set directories[3]=%rootDir%Batch\classes\
+	set directories[1]=%rootDir%Batch\classes\
+	set directories[2]=%projectDir%.data\
+	set directories[3]=%projectDir%Chapter_1.2\classes\
+	set directories[4]=%projectDir%Encog\classes\
+	set directories[5]=%projectDir%Neural\classes\
+	set directories[6]=%projectDir%Neural2\classes\
+	set directories[7]=%projectDir%Neural3\classes\
 
-	set files.length=0
+	set files.length=3
+
+	set files[1]=%projectDir%Neural\myprogram.hprof
+	set files[2]=%projectDir%Neural\myprogram.hprof
+	set files[3]=%projectDir%Neural\myprogram.hprof
 
 %return%
 
@@ -170,6 +178,7 @@
 	set _path=
 
 %return%
+
 
 @rem --------------------------------------------------------------------------------
 @rem ---

@@ -1,6 +1,8 @@
 package chapter_1_2.example_02;
 
 
+import chapter_1_2.example_02.experimental0.TrainingResult;
+
 import java.awt.Color;
 import java.awt.Font;
 

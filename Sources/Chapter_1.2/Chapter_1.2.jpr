@@ -94,7 +94,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Numbers-0.6.0"/>
+            <value n="id" v="Numbers-0.8.0"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
@@ -137,20 +137,6 @@
             </hash>
             <hash>
                <list n="classPath">
-                  <url path="../../Libraries/Jmul/jmul-numbers-0.6.0.jar" jar-entry=""/>
-                  <url path="../../Libraries/Jmul/jmul-numbers-properties/"/>
-               </list>
-               <value n="description" v="Numbers-0.6.0"/>
-               <list n="docPath">
-                  <url path="../../Libraries/Jmul/jmul-numbers-0.6.0-javadoc.jar" jar-entry=""/>
-               </list>
-               <value n="id" v="Numbers-0.6.0"/>
-               <list n="sourcePath">
-                  <url path="../../Libraries/Jmul/jmul-numbers-0.6.0-sources.jar" jar-entry=""/>
-               </list>
-            </hash>
-            <hash>
-               <list n="classPath">
                   <url path="../../Libraries/XChart/xchart-3.8.9-SNAPSHOT.jar" jar-entry=""/>
                   <url path="../../Libraries/XChart/xchart-demo-3.8.9-SNAPSHOT.jar" jar-entry=""/>
                </list>
@@ -165,6 +151,20 @@
                   <url path="../../Libraries/XChart/xchart-demo-3.8.9-SNAPSHOT-sources.jar" jar-entry=""/>
                </list>
             </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../../Libraries/Jmul/jmul-numbers-properties/"/>
+                  <url path="../../Libraries/Jmul/jmul-numbers-0.8.0.jar" jar-entry=""/>
+               </list>
+               <value n="description" v="Numbers-0.8.0"/>
+               <list n="docPath">
+                  <url path="../../Libraries/Jmul/jmul-numbers-0.8.0-javadoc.jar" jar-entry=""/>
+               </list>
+               <value n="id" v="Numbers-0.8.0"/>
+               <list n="sourcePath">
+                  <url path="../../Libraries/Jmul/jmul-numbers-0.8.0-sources.jar" jar-entry=""/>
+               </list>
+            </hash>
          </list>
       </hash>
       <list n="libraryReferences">
@@ -173,7 +173,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Numbers-0.6.0"/>
+            <value n="id" v="Numbers-0.8.0"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
