@@ -38,12 +38,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jmul.functions.Function;
+import jmul.functions.FunctionHelper;
 
 import jmul.genetic.Mutator;
 
 import jmul.math.numbers.Number;
 
-import jmul.neural.functions.ActivationFunctions;
 import static jmul.neural.genetic.TypesOfChange.MUTATE_NEURON_ACTIVATION_FUNCTION;
 import static jmul.neural.genetic.TypesOfChange.MUTATE_NEURON_BIAS;
 import static jmul.neural.genetic.TypesOfChange.MUTATE_SYNAPSE_WEIGHT;
@@ -144,7 +144,7 @@ public class NetworkMutator implements Mutator<Network> {
 
         Neuron neuron = allNeurons.get(randomIndex);
 
-        Function newActivationFunction = ActivationFunctions.randomActivationFunction();
+        Function newActivationFunction = FunctionHelper.randomActivationFunction();
         NetworkHelper.setActivationFunction(neuron, newActivationFunction);
     }
 

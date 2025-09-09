@@ -34,6 +34,12 @@
 package jmul.functions;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import jmul.functions.conditions.Condition;
+import jmul.functions.conditions.ConditionFunctionEntry;
+
 import jmul.math.numbers.Number;
 
 
@@ -41,58 +47,35 @@ import jmul.math.numbers.Number;
  * Implements a function with a threshold (i.e. function1 &lt; threshold &lt;= function2).
  *
  * @author Kristian Kutin
- * 
- * TODO try making it more generic
  */
 public class ThresholdFunctionImpl implements Function {
 
     /**
-     * A threshold.
+     * A map containing all functions and conditions.
      */
-    private final Number threshold;
-
-    /**
-     * A function.
-     */
-    private final Function function1;
-
-    /**
-     * A function.
-     */
-    private final Function function2;
+    private Map<Condition<Number>, Function> functionMap;
 
     /**
      * Creates a new threshold function.
      *
-     * @param function1
-     *        a function
-     * @param threshold
-     *        a threshold
-     * @param function2
-     *        a function
+     * @param entries
+     *        all condition-&gt;function entries
      */
-    public ThresholdFunctionImpl(Function function1, Number threshold, Function function2) {
+    public ThresholdFunctionImpl(ConditionFunctionEntry... entries) {
 
         super();
 
-        if (function1 == null) {
+        if (entries == null) {
 
-            throw new IllegalArgumentException("No function #1 (null) was specified!");
+            throw new IllegalArgumentException("No entries (null) were specified!");
         }
 
-        if (threshold == null) {
+        this.functionMap = new HashMap<>();
 
-            throw new IllegalArgumentException("No threshold (null) was specified!");
+        for (ConditionFunctionEntry entry : entries) {
+
+            functionMap.put(entry.condition, entry.function);
         }
-
-        if (function2 == null) {
-
-            throw new IllegalArgumentException("No function #2 (null) was specified!");
-        }
-
-        this.function1 = function1;
-        this.threshold = threshold;
-        this.function2 = function2;
     }
 
     /**
@@ -108,17 +91,21 @@ public class ThresholdFunctionImpl implements Function {
 
         if (number == null) {
 
-            throw new IllegalArgumentException("No number(null) was specified!");
+            throw new IllegalArgumentException("No number (null) was specified!");
         }
 
-        if (number.isLesser(threshold)) {
+        for (Map.Entry<Condition<Number>, Function> entry : functionMap.entrySet()) {
 
-            return function1.calculate(number);
+            Condition<Number> condition = entry.getKey();
+            Function function = entry.getValue();
 
-        } else {
+            if (condition.meetsCondition(number)) {
 
-            return function2.calculate(number);
+                return function.calculate(number);
+            }
         }
+
+        throw new MissingConditionCaseException();
     }
 
     /**
@@ -129,7 +116,20 @@ public class ThresholdFunctionImpl implements Function {
     @Override
     public Function derivativeFunction() {
 
-        return new ThresholdFunctionImpl(function1.derivativeFunction(), threshold, function2.derivativeFunction());
+        int length = functionMap.size();
+        ConditionFunctionEntry[] entries = new ConditionFunctionEntry[length];
+
+        int index = 0;
+        for (Map.Entry<Condition<Number>, Function> entry : functionMap.entrySet()) {
+
+            Condition<Number> condition = entry.getKey();
+            Function function = entry.getValue();
+
+            entries[index] = new ConditionFunctionEntry(condition, function.derivativeFunction());
+            index++;
+        }
+
+        return new ThresholdFunctionImpl(entries);
     }
 
     /**
@@ -142,15 +142,29 @@ public class ThresholdFunctionImpl implements Function {
 
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append("f(x) = ");
-        buffer.append("x < ");
-        buffer.append(threshold);
-        buffer.append(": ");
-        buffer.append(function1);
-        buffer.append("; x >=");
-        buffer.append(threshold);
-        buffer.append(": ");
-        buffer.append(function2);
+        buffer.append("f(x) = { ");
+
+        boolean first = true;
+        for (Map.Entry<Condition<Number>, Function> entry : functionMap.entrySet()) {
+
+            if (first) {
+
+                first = false;
+
+            } else {
+
+                buffer.append("; ");
+            }
+
+            Condition<Number> condition = entry.getKey();
+            Function function = entry.getValue();
+
+            buffer.append(condition);
+            buffer.append(" : ");
+            buffer.append(function);
+        }
+
+        buffer.append(" }");
 
         return buffer.toString();
     }

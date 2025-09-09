@@ -41,6 +41,11 @@ import jmul.functions.Function;
 import jmul.functions.PolynomialFunctionImpl;
 import jmul.functions.ThresholdFunctionImpl;
 
+import jmul.functions.conditions.ConditionFunctionEntry;
+
+import jmul.functions.conditions.GreaterOrEqualCondition;
+import jmul.functions.conditions.LesserThanCondition;
+
 import jmul.math.numbers.Number;
 import static jmul.math.numbers.NumberHelper.createNumber;
 
@@ -405,7 +410,11 @@ public class FunctionCreationTest {
         Function f2 =
             new PolynomialFunctionImpl(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "1"),
                                        createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "2"));
-        Function f = new ThresholdFunctionImpl(f1, createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "2"), f2);
+        Function f =
+            new ThresholdFunctionImpl(new ConditionFunctionEntry(new LesserThanCondition(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE,
+                                                                                                      "2")), f1),
+                                      new ConditionFunctionEntry(new GreaterOrEqualCondition(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE,
+                                                                                                          "2")), f2));
 
         String s = f.toString();
         assertEquals("formula", "f(x) = x < 2: f(x) = 3 * x^2 + 2 * x + 1; x >=2: f(x) = 2 * x + 1", s);
@@ -440,7 +449,11 @@ public class FunctionCreationTest {
         Function f2 =
             new PolynomialFunctionImpl(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "1"),
                                        createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "2"));
-        Function f = new ThresholdFunctionImpl(f1, createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "2"), f2);
+        Function f =
+            new ThresholdFunctionImpl(new ConditionFunctionEntry(new LesserThanCondition(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE,
+                                                                                                      "2")), f1),
+                                      new ConditionFunctionEntry(new GreaterOrEqualCondition(createNumber(GlobalSettings.DEFAULT_NUMBER_BASE,
+                                                                                                          "2")), f2));
         f = f.derivativeFunction();
 
         String s = f.toString();

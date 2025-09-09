@@ -38,11 +38,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jmul.functions.Function;
+import jmul.functions.FunctionHelper;
+
 import jmul.math.numbers.Number;
 
 import jmul.neural.GlobalSettings;
-import jmul.functions.Function;
-import jmul.neural.functions.ActivationFunctions;
 import static jmul.neural.neurons.NetworkHelper.linkInputNeuron;
 import static jmul.neural.neurons.NetworkHelper.linkNeurons;
 import static jmul.neural.neurons.NetworkHelper.linkOutputNeuron;
@@ -174,7 +175,7 @@ public class FlatNetworkImpl implements Network, SignalListener {
                 Number randomBias = NetworkHelper.randomBias();
                 setBias(neuron, randomBias);
 
-                Function activationFunction = ActivationFunctions.randomActivationFunction();
+                Function activationFunction = FunctionHelper.randomActivationFunction();
                 setActivationFunction(neuron, activationFunction);
 
                 neurons.add(neuron);
