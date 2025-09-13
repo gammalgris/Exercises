@@ -57,18 +57,27 @@ public class SynapseImpl implements Synapse {
     private Number weight;
 
     /**
+     * The layer to which this synapse belongs to.
+     */
+    private final Layer layer;
+
+    /**
      * All listeners.
      */
     private List<SignalListener> listeners;
 
     /**
      * Creates a new synapse without any connections.
+     *
+     * @param layer
+     *        the layer to which this synapse belongs to
      */
-    public SynapseImpl() {
+    public SynapseImpl(Layer layer) {
 
         super();
 
         this.weight = null;
+        this.layer = layer;
         this.listeners = new ArrayList<>();
     }
 
@@ -130,14 +139,27 @@ public class SynapseImpl implements Synapse {
     }
 
     @Override
-    public void sendSignal(Signal signal) {
+    public void receiveSignal(Signal signal) {
 
         Signal amplifiedSignal = amplifySignal(signal);
 
+        sendSignal(amplifiedSignal);
+    }
+
+    public void sendSignal(Signal signal) {
+
+        //System.out.println("\tDEBUG::" + this + ": signal=" + signal);
+
         for (SignalListener listener : listeners) {
 
-            listener.sendSignal(amplifiedSignal);
+            listener.receiveSignal(signal);
         }
+    }
+
+    @Override
+    public Layer layer() {
+        
+        return layer;
     }
 
 }

@@ -102,4 +102,10 @@ public class DataEntryWithResult extends DataEntry {
         return expectedOutput.subtract(actualOutput);
     }
 
+    @Override
+    public String toString() {
+
+        return String.format("inpput=%s; expected output=%s; actual output=%s", input, expectedOutput, actualOutput);
+    }
+
 }

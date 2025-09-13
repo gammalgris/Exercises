@@ -31,11 +31,26 @@
  * $Id$
  */
 
-package jmul.neural.signals;
+package jmul.neural.training;
 
 
-public interface SignalListener {
+import jmul.math.numbers.Number;
+import jmul.data.TrainingData;
 
-    void receiveSignal(Signal signal);
+import jmul.neural.neurons.Network;
+
+
+public class NeuronTrainer implements NetworkTrainer {
+
+    public NeuronTrainer() {
+        super();
+    }
+
+    @Override
+    public Number trainNetwork(Network network, TrainingData trainingData) {
+
+        // TODO Implement this method
+        return null;
+    }
 
 }

@@ -58,15 +58,20 @@ public class LesserThanCondition extends ThresholdConditionBase {
     /**
      * Checks if the specified parameter is lesser than the threshold.
      *
-     * @param t
+     * @param number
      *        a parameter
      *
      * @return <code>true</code> if the specified parameter is lesser than the threshold, else <code>false</code>
      */
     @Override
-    public boolean meetsCondition(Number t) {
+    public boolean meetsCondition(Number number) {
 
-        return !threshold.isGreaterOrEqual(t);
+        if (number == null) {
+
+            throw new IllegalArgumentException("No number (null) was specified!");
+        }
+
+        return number.isLesser(threshold);
     }
 
     /**

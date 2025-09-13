@@ -54,4 +54,11 @@ public interface Synapse extends SignalSource, SignalListener {
      */
     Number weight();
 
+    /**
+     * The layer to which this synapse belongs to.
+     *
+     * @return a layer
+     */
+    Layer layer();
+
 }

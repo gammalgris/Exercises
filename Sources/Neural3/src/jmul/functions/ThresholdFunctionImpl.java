@@ -61,7 +61,7 @@ public class ThresholdFunctionImpl implements Function {
      * @param entries
      *        all condition-&gt;function entries
      */
-    public ThresholdFunctionImpl(ConditionFunctionEntry... entries) {
+     ThresholdFunctionImpl(ConditionFunctionEntry... entries) {
 
         super();
 
@@ -88,11 +88,6 @@ public class ThresholdFunctionImpl implements Function {
      */
     @Override
     public Number calculate(Number number) {
-
-        if (number == null) {
-
-            throw new IllegalArgumentException("No number (null) was specified!");
-        }
 
         for (Map.Entry<Condition<Number>, Function> entry : functionMap.entrySet()) {
 

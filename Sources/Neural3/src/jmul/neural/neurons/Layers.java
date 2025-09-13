@@ -31,11 +31,13 @@
  * $Id$
  */
 
-package jmul.neural.signals;
+package jmul.neural.neurons;
 
 
-public interface SignalListener {
+public enum Layers implements Layer {
 
-    void receiveSignal(Signal signal);
+    INPUT_LAYER,
+    OUTPUT_LAYER,
+    HIDDEN_LAYER;
 
 }

@@ -38,6 +38,7 @@ import jmul.math.numbers.Number;
 import static jmul.math.numbers.NumberHelper.createNumber;
 
 import jmul.neural.GlobalSettings;
+import jmul.neural.neurons.Layers;
 import jmul.neural.neurons.Synapse;
 import jmul.neural.neurons.SynapseImpl;
 import jmul.neural.signals.Signal;
@@ -78,7 +79,7 @@ public class SignalTransferTest {
             Signal lastSignal = null;
 
             @Override
-            public void sendSignal(Signal signal) {
+            public void receiveSignal(Signal signal) {
 
                 lastSignal = signal;
             }
@@ -100,7 +101,7 @@ public class SignalTransferTest {
 
         Number number = createNumber(10, "1");
 
-        SynapseImpl tmpSynapse = new SynapseImpl();
+        SynapseImpl tmpSynapse = new SynapseImpl(Layers.INPUT_LAYER);
         tmpSynapse.setWeight(number);
         tmpSynapse.addListener(listener);
 
@@ -133,7 +134,7 @@ public class SignalTransferTest {
         String valueString = VALUE.toString();
         assertFalse("before", listenerString.equals(valueString));
 
-        synapse.sendSignal(signal);
+        synapse.receiveSignal(signal);
 
         listenerString = listener.toString();
         valueString = VALUE.toString();

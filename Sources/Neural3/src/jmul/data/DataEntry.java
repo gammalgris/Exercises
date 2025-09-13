@@ -97,4 +97,10 @@ public class DataEntry {
              createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, expectedOutputString));
     }
 
+    @Override
+    public String toString( ) {
+
+        return String.format("inpput=%s; expected output=%s", input, expectedOutput);
+    }
+
 }

@@ -61,12 +61,22 @@ public final class FunctionHelper {
     }
 
     /**
-     *Creates a new polynomial function according to the specified parameters.
+     * Creates a new polynomial function.
+     *
+     * @return a function
+     */
+    public static Function createPolynomialFunction() {
+
+        return new PolynomialFunctionImpl(new Number[] { });
+    }
+
+    /**
+     * Creates a new polynomial function according to the specified parameters.
      *
      * @param base
      *        a number base
      * @param coefficientStrings
-     *        all coefficient number strings
+     *        all coefficient number strings (in ascending order c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, ..., c<sub>n</sub>)
      *
      * @return a function
      */
@@ -97,11 +107,11 @@ public final class FunctionHelper {
      *
      * @return a function
      */
-    public static Function createRandomPolynomialFunction(int base) {
+    public static Function createRandomPolynomialFunctionExcludingStaticFunctions(int base) {
 
-        int maxNumbers = (int) (java.lang
-                                    .Math
-                                    .random() * 4L);
+        int maxNumbers = ((int) (java.lang
+                                     .Math
+                                     .random() * 2L)) + 2;
 
         Number[] coefficients = new Number[maxNumbers];
         for (int index = 0; index < maxNumbers; index++) {
@@ -111,6 +121,48 @@ public final class FunctionHelper {
         }
 
         return new PolynomialFunctionImpl(coefficients);
+    }
+
+    /**
+     * Creates a random polynomial function with random coefficients.
+     *
+     * @param base
+     *        a number base
+     *
+     * @return a function
+     */
+    public static Function createRandomPolynomialFunctionIncludingStaticFunctions(int base) {
+
+        int maxNumbers = ((int) (java.lang
+                                     .Math
+                                     .random() * 3L)) + 1;
+
+        Number[] coefficients = new Number[maxNumbers];
+        for (int index = 0; index < maxNumbers; index++) {
+
+            Number n = Math.random(base);
+            coefficients[index] = n;
+        }
+
+        return new PolynomialFunctionImpl(coefficients);
+    }
+
+    /**
+     * Creates a threshold function according to the specified parameters.
+     *
+     * @param entries
+     *        condition function entries
+     *
+     * @return a threshold function
+     */
+    public static Function createThresholdFunction(ConditionFunctionEntry... entries) {
+
+        if (entries == null) {
+
+            throw new IllegalArgumentException("No entries (null) were specified!");
+        }
+
+        return new ThresholdFunctionImpl(entries);
     }
 
     /**
@@ -126,8 +178,10 @@ public final class FunctionHelper {
         Number threshold = Math.random(base);
 
         ConditionFunctionEntry[] entries = {
-            new ConditionFunctionEntry(new LesserThanCondition(threshold), createRandomPolynomialFunction(base)),
-            new ConditionFunctionEntry(new GreaterOrEqualCondition(threshold), createRandomPolynomialFunction(base))
+            new ConditionFunctionEntry(new LesserThanCondition(threshold),
+                                       createRandomPolynomialFunctionIncludingStaticFunctions(base)),
+            new ConditionFunctionEntry(new GreaterOrEqualCondition(threshold),
+                                       createRandomPolynomialFunctionIncludingStaticFunctions(base))
         };
 
         return new ThresholdFunctionImpl(entries);
@@ -148,7 +202,7 @@ public final class FunctionHelper {
         switch (randomCase) {
 
         case 0:
-            return createRandomPolynomialFunction(GlobalSettings.DEFAULT_NUMBER_BASE);
+            return createRandomPolynomialFunctionExcludingStaticFunctions(GlobalSettings.DEFAULT_NUMBER_BASE);
         case 1:
             return createRandomThresholdFunction(GlobalSettings.DEFAULT_NUMBER_BASE);
         default:

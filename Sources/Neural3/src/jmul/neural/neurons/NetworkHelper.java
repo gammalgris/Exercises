@@ -36,15 +36,22 @@ package jmul.neural.neurons;
 
 import java.util.List;
 
+import jmul.data.DataEntry;
+import jmul.data.TrainingData;
+
 import jmul.functions.Function;
 
 import jmul.math.Math;
 import jmul.math.numbers.Number;
 import static jmul.math.numbers.NumberHelper.createNumber;
 
+import jmul.metainfo.annotations.Modified;
+
 import jmul.neural.GlobalSettings;
-import jmul.functions.Function;
 import jmul.neural.signals.SignalListener;
+import jmul.neural.training.NetworkTrainer;
+import jmul.neural.training.NeuronTrainer;
+import jmul.neural.training.SynapseTrainer;
 
 
 /**
@@ -233,7 +240,7 @@ public final class NetworkHelper {
             SynapseImpl synapse2 = (SynapseImpl) synapse;
             NeuronImpl neuronTo2 = (NeuronImpl) neuronTo;
 
-            neuronFrom2.addListener(synapse2);
+            neuronFrom2.addSignalListener(synapse2);
             synapse2.addListener(neuronTo2);
             neuronTo2.addSignalSource(synapse2);
 
@@ -301,7 +308,7 @@ public final class NetworkHelper {
 
             NeuronImpl neuronFrom2 = (NeuronImpl) neuronFrom;
 
-            neuronFrom2.addListener(synapse);
+            neuronFrom2.addSignalListener(synapse);
 
             return;
         }
@@ -431,6 +438,44 @@ public final class NetworkHelper {
         }
 
         return clonedNetwork;
+    }
+
+    /**
+     * Trains the specified network (i.e. rearranges the weights).
+     *
+     * @param network
+     *        a network
+     * @param trainingData
+     *        a set of training data
+     *
+     * @return the mean squared error
+     */
+    public static Number trainNetwork(@Modified Network network, TrainingData trainingData) {
+
+        NetworkTrainer synapseTrainer = new SynapseTrainer();
+        NetworkTrainer neuronTrainer = new NeuronTrainer();
+
+        System.out.println(network);
+        System.out.println("--------------------------------------------------------------------------------");
+
+        synapseTrainer.trainNetwork(network, trainingData);
+        neuronTrainer.trainNetwork(network, trainingData);
+
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println(network);
+        System.out.println("--------------------------------------------------------------------------------");
+
+        for (DataEntry entry : trainingData) {
+
+            Number actualOutput = network.send(entry.input);
+
+            String summary = String.format("%s -> %s expected %s", entry.input, actualOutput, entry.expectedOutput);
+            System.out.println(summary);
+        }
+
+        //TODO repeat until error is small
+
+        return null;
     }
 
 }

@@ -31,11 +31,30 @@
  * $Id$
  */
 
-package jmul.neural.signals;
+package jmul.neural.training;
 
 
-public interface SignalListener {
+import jmul.data.TrainingData;
 
-    void receiveSignal(Signal signal);
+import jmul.math.numbers.Number;
+
+import jmul.metainfo.annotations.Modified;
+
+import jmul.neural.neurons.Network;
+
+
+public interface NetworkTrainer {
+
+    /**
+     * Trains the specified neural network.
+     *
+     * @param network
+     *        a neural network
+     * @param trainingData
+     *        a set oftraining data
+     *
+     * @return the squared mean error
+     */
+    Number trainNetwork(@Modified Network network, TrainingData trainingData);
 
 }

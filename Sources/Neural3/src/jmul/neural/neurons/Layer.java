@@ -31,11 +31,8 @@
  * $Id$
  */
 
-package jmul.neural.signals;
+package jmul.neural.neurons;
 
 
-public interface SignalListener {
-
-    void receiveSignal(Signal signal);
-
+public interface Layer {
 }

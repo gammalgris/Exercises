@@ -34,6 +34,8 @@
 package test.jmul.neural.neurons;
 
 
+import jmul.neural.neurons.Layer;
+import jmul.neural.neurons.Layers;
 import jmul.neural.neurons.Synapse;
 import jmul.neural.neurons.SynapseImpl;
 
@@ -41,6 +43,7 @@ import jmul.test.classification.UnitTest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
@@ -58,7 +61,8 @@ public class SynapseCreationTest {
     @Test
     public void createSynapse() {
 
-        SynapseImpl synapse = new SynapseImpl();
+        Layer layer = Layers.HIDDEN_LAYER;
+        SynapseImpl synapse = new SynapseImpl(layer);
 
         assertNull(synapse.weight());
 
@@ -66,6 +70,7 @@ public class SynapseCreationTest {
 
         Synapse synapse2 = (Synapse) synapse;
         assertNull(synapse2.weight());
+        assertEquals(layer, synapse.layer());
     }
 
 }

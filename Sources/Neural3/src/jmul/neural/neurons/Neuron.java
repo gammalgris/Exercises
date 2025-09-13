@@ -63,4 +63,11 @@ public interface Neuron extends SignalSource, SignalListener {
      */
     Number bias();
 
+    /**
+     * The layer to which this synapse belongs to.
+     *
+     * @return a layer
+     */
+    Layer layer();
+
 }

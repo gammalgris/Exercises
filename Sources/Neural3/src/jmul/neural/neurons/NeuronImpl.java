@@ -42,9 +42,7 @@ import java.util.Map;
 import jmul.functions.Function;
 
 import jmul.math.numbers.Number;
-import static jmul.math.numbers.NumberHelper.createNumber;
 
-import jmul.neural.GlobalSettings;
 import jmul.neural.signals.Signal;
 import jmul.neural.signals.SignalImpl;
 import jmul.neural.signals.SignalListener;
@@ -69,9 +67,14 @@ public class NeuronImpl implements Neuron {
     private Function activationFunction;
 
     /**
+     * The layer to which this neuron belongs to.
+     */
+    private final Layer layer;
+
+    /**
      * All listeners.
      */
-    private List<SignalListener> listeners;
+    private List<SignalListener> signalListeners;
 
     private List<SignalSource> signalSources;
 
@@ -79,14 +82,18 @@ public class NeuronImpl implements Neuron {
 
     /**
      * Creates a new neuron.
+     *
+     * @param layer
+     *        the layer to which this neuron belongs to
      */
-    public NeuronImpl() {
+    public NeuronImpl(Layer layer) {
 
         super();
 
         this.bias = null;
         this.activationFunction = null;
-        this.listeners = new ArrayList<>();
+        this.layer = layer;
+        this.signalListeners = new ArrayList<>();
         this.signalSources = new ArrayList<>();
         this.cache = new HashMap<>();
     }
@@ -145,14 +152,14 @@ public class NeuronImpl implements Neuron {
         this.activationFunction = activationFunction;
     }
 
-    public void addListener(SignalListener listener) {
+    public void addSignalListener(SignalListener listener) {
 
-        listeners.add(listener);
+        signalListeners.add(listener);
     }
 
-    public void removeListener(SignalListener listener) {
+    public void removeSignalListener(SignalListener listener) {
 
-        listeners.remove(listener);
+        signalListeners.remove(listener);
     }
 
     public void addSignalSource(SignalSource source) {
@@ -162,47 +169,78 @@ public class NeuronImpl implements Neuron {
 
     public void removeSignalSource(SignalSource source) {
 
-        signalSources.remove(signalSources);
+        signalSources.remove(source);
     }
 
     /**
-     * Amplifies the specified signal.
+     * Amplifies the specified signal value.
      *
-     * @param signal
-     *        a signal
+     * @param signalValue
+     *        a signal value (i.e. number)
      *
-     * @return an amplified signal
+     * @return an amplified signal value (i.e. number)
      */
-    private Signal amplifySignal(Signal signal) {
+    private Number amplify(Number signalValue) {
 
-        Number amplifiedSignal = activationFunction.calculate(signal.value());
+        Number amplifiedSignalValue = activationFunction.calculate(signalValue);
 
-        return new SignalImpl(this, amplifiedSignal);
+        if (hasBias()) {
+
+            amplifiedSignalValue = amplifiedSignalValue.add(bias);
+        }
+
+        return amplifiedSignalValue;
     }
 
     @Override
-    public void sendSignal(Signal signal) {
+    public void receiveSignal(Signal signal) {
 
         cache.put(signal.source(), signal.value());
 
         if (cache.size() == signalSources.size()) {
 
-            Number sum = createNumber(GlobalSettings.DEFAULT_NUMBER_BASE, "0");
-            for (Number value : cache.values()) {
+            Number signalValue = cumulatedSignal();
+            signalValue = amplify(signalValue);
+            Signal newSignal = new SignalImpl(this, signalValue);
 
-                sum = sum.add(value);
-            }
-
-            Signal newSignal = new SignalImpl(this, sum);
-            newSignal = amplifySignal(signal);
-
-            for (SignalListener listener : listeners) {
-
-                listener.sendSignal(newSignal);
-            }
+            sendSignal(newSignal);
 
             cache.clear();
         }
+    }
+
+    private Number cumulatedSignal() {
+
+        Number sum = null;
+        for (Number value : cache.values()) {
+
+            if (sum == null) {
+
+                sum = value;
+
+            } else {
+
+                sum = sum.add(value);
+            }
+        }
+
+        return sum;
+    }
+
+    public void sendSignal(Signal signal) {
+
+        //System.out.println("\tDEBUG::" + this + ": signal=" + signal);
+
+        for (SignalListener listener : signalListeners) {
+
+            listener.receiveSignal(signal);
+        }
+    }
+
+    @Override
+    public Layer layer() {
+
+        return layer;
     }
 
 }

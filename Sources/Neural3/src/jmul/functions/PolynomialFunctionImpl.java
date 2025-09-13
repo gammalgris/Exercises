@@ -54,7 +54,8 @@ import jmul.neural.GlobalSettings;
 public class PolynomialFunctionImpl implements Function {
 
     /**
-     * All coefficients of the function. The index position determines the position within the formula (see class description).
+     * All coefficients of the function. The index position determines the position within the formula (see class
+     * description; in ascending order c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, ..., c<sub>n</sub>).
      *
      * @author Kristian Kutin
      */
@@ -64,9 +65,10 @@ public class PolynomialFunctionImpl implements Function {
      * Creates a new instance according to the specified parameters.
      *
      * @param coefficients
-     *        all coefficients. The index position determines the position within the formula (see class description).
+     *        all coefficients. The index position determines the position within the formula (see class description;
+     *        in ascending order c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, ..., c<sub>n</sub>).
      */
-    public PolynomialFunctionImpl(Number... coefficients) {
+    PolynomialFunctionImpl(Number... coefficients) {
 
         super();
 

@@ -42,6 +42,7 @@ import jmul.functions.Function;
 import jmul.functions.FunctionHelper;
 
 import jmul.math.numbers.Number;
+import static jmul.math.numbers.NumberHelper.createNumber;
 
 import jmul.neural.GlobalSettings;
 import static jmul.neural.neurons.NetworkHelper.linkInputNeuron;
@@ -109,6 +110,9 @@ public class FlatNetworkImpl implements Network, SignalListener {
      */
     private Synapse outputSynapse;
 
+    /**
+     * Stores the signal that comes via the output synapse.
+     */
     private Signal lastSignal;
 
     /**
@@ -163,7 +167,13 @@ public class FlatNetworkImpl implements Network, SignalListener {
      */
     private void initializeNeurons(int... neuronsPerLayer) {
 
+        final int lastLayerIndex = neuronsPerLayer.length - 1;
+
         for (int layer = FIRST_LAYER_INDEX; layer < neuronsPerLayer.length; layer++) {
+
+            boolean isInputLayer = (layer == FIRST_LAYER_INDEX);
+            boolean isOutputLayer = (layer == lastLayerIndex);
+            boolean isHiddenLayer = !isInputLayer && !isOutputLayer;
 
             int neuronCount = neuronsPerLayer[layer];
 
@@ -171,12 +181,42 @@ public class FlatNetworkImpl implements Network, SignalListener {
 
             for (int count = 0; count < neuronCount; count++) {
 
-                Neuron neuron = new NeuronImpl();
-                Number randomBias = NetworkHelper.randomBias();
-                setBias(neuron, randomBias);
+                Neuron neuron;
+                if (isInputLayer) {
 
-                Function activationFunction = FunctionHelper.randomActivationFunction();
-                setActivationFunction(neuron, activationFunction);
+                    neuron = new NeuronImpl(Layers.INPUT_LAYER);
+
+                } else if (isHiddenLayer) {
+
+                    neuron = new NeuronImpl(Layers.HIDDEN_LAYER);
+
+                } else if (isOutputLayer) {
+
+                    neuron = new NeuronImpl(Layers.OUTPUT_LAYER);
+
+                } else {
+
+                    throw new IllegalArgumentException("Opps! An unknown layer was encountered!");
+                }
+
+                if (isHiddenLayer) {
+
+                    Number randomBias = NetworkHelper.randomBias();
+                    Function activationFunction = FunctionHelper.randomActivationFunction();
+
+                    setBias(neuron, randomBias);
+                    setActivationFunction(neuron, activationFunction);
+
+                } else {
+
+                    int base = GlobalSettings.DEFAULT_NUMBER_BASE;
+
+                    Number bias = createNumber(base, "0");
+                    Function activationFunction = FunctionHelper.createPolynomialFunction(base, "0", "1");
+
+                    setBias(neuron, bias);
+                    setActivationFunction(neuron, activationFunction);
+                }
 
                 neurons.add(neuron);
             }
@@ -222,7 +262,7 @@ public class FlatNetworkImpl implements Network, SignalListener {
 
                 for (Neuron neuronTo : networkLayers.get(nextLayerIndex)) {
 
-                    Synapse synapse = new SynapseImpl();
+                    Synapse synapse = new SynapseImpl(Layers.HIDDEN_LAYER);
                     Number randomWeight = NetworkHelper.randomWeight();
                     setWeight(synapse, randomWeight);
 
@@ -241,7 +281,7 @@ public class FlatNetworkImpl implements Network, SignalListener {
      */
     private void initializeInputSynapse() {
 
-        Synapse synapse = new SynapseImpl();
+        Synapse synapse = new SynapseImpl(Layers.INPUT_LAYER);
         setWeight(synapse, GlobalSettings.DEFAULT_NUMBER_BASE, "1");
 
         Neuron neuron = firstLayer().get(0);
@@ -256,7 +296,7 @@ public class FlatNetworkImpl implements Network, SignalListener {
      */
     private void initializeOutputSynapse() {
 
-        Synapse synapse = new SynapseImpl();
+        Synapse synapse = new SynapseImpl(Layers.OUTPUT_LAYER);
         setWeight(synapse, GlobalSettings.DEFAULT_NUMBER_BASE, "1");
 
         Neuron neuron = lastLayer().get(0);
@@ -406,14 +446,14 @@ public class FlatNetworkImpl implements Network, SignalListener {
 
         Signal inputSignal = new SignalImpl(OUTSIDE, input);
 
-        inputSynapse.sendSignal(inputSignal);
+        inputSynapse.receiveSignal(inputSignal);
         Number output = lastSignal.value();
 
         return output;
     }
 
     @Override
-    public void sendSignal(Signal signal) {
+    public void receiveSignal(Signal signal) {
 
         this.lastSignal = signal;
     }
